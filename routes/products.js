@@ -3,7 +3,6 @@ var router = express.Router();
 
 var ProductController = require("../modules/Products/ProductController");
 
-
 router.get("/byCate/:idCate", async function (req, res, next) {
     try {
         const { idCate } = req.params;
@@ -14,14 +13,16 @@ router.get("/byCate/:idCate", async function (req, res, next) {
             } else {
                 products = await ProductController.getProductByCatId(idCate);
             }
-            if (products) res.status(200).json({ status: true, data: products });
+            if (products)
+                res.status(200).json({ status: true, data: products });
             return null;
-        } else return res.status(500).json({ status: false, message: "Id category trống" })
-
+        } else return res.status(500).json({ status: false, message: "Id category trống" });
     } catch (error) {
-        return res.status(500).json({ status: false, message: "Lấy sản phẩm thất bại" })
+        return res
+            .status(500)
+            .json({ status: false, message: "Lấy sản phẩm thất bại" });
     }
-})
+});
 
 // http://localhost:3000/products/getProductByName
 router.get("/getProductByName", async function (req, res, next) {
@@ -35,31 +36,31 @@ router.get("/getProductByName", async function (req, res, next) {
     }
 });
 
+// http://localhost:3000/products/getAllProduct
+router.get("/getAllProduct", async function (req, res, next) {
+    try {
+        const products = await ProductController.getAll();
+        res.status(200).json({ data: products, status: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: false,
+            message: "Error fetching",
+        });
+    }
+});
 
-// // http://localhost:3000/products/getAllProduct
-// router.get("/getAllProduct", async function (req, res, next) {
-//     try {
-//         const products = await ProductController.getAll();
-//         if (products) return res.status(200).json({ status: true, data: products });
-//         return res.status(500).json({ status: false, message: "Lấy sản phẩm thất bại" });
-//     } catch (err) {
-//         console.error("getAll product err: ", err);
-//         return res.status(500).json({ status: false, error: err });
-//     }
-// });
-// // http://localhost:3000/products/getProductById
-// router.get("/getProductById", async function (req, res, next) {
-//     try {
-//         const { proId } = req.query;
-//         const product = await ProductController.getProductById(proId);
-//         return res.status(200).json({ status: true, data: product });
-//     } catch (err) {
-//         console.error("get product by id err: ", err);
-//         return res.status(500).json({ status: false, error: err });
-//     }
-// });
-
-
+// http://localhost:3000/products/getProductById
+router.get("/getProductById", async function (req, res, next) {
+    try {
+        const { proId } = req.query;
+        const product = await ProductController.getProductById(proId);
+        return res.status(200).json({ status: true, data: product });
+    } catch (err) {
+        console.error("get product by id err: ", err);
+        return res.status(500).json({ status: false, error: err });
+    }
+});
 
 // // http://localhost:3000/products/getProductByCatId
 // router.get("/getProductByCatId", async function (req, res, next) {

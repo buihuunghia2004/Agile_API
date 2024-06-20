@@ -1,13 +1,13 @@
 const ProductModel = require("./ProductModel");
 const CategoryModel = require("../Categories/CategoryModel");
 const CategoryController = require("../Categories/CategoryController");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const getAll = async () => {
     try {
-        const products = await ProductModel.find();
-        console.log(products)
+        const products = await ProductModel.find({});
+        console.log(products);
         if (products) return products;
-        return null
+        return null;
     } catch (error) {
         console.log(error);
     }
@@ -43,8 +43,8 @@ const getProductById = async (proId) => {
 };
 const getProductByCatId = async (catId) => {
     try {
-        const products = await ProductModel.find({ catId: catId.toString()});
-        console.log(products)
+        const products = await ProductModel.find({ catId: catId.toString() });
+        console.log(products);
         return products;
     } catch (error) {
         console.log(error.message);
@@ -69,7 +69,12 @@ const insert = async (name, catId, price, desc, qty, image) => {
 const update = async (_id, name, catId, price, desc, qty, image) => {
     try {
         const product = ProductModel.findByIdAndUpdate(_id, {
-            name, catId, price, desc, qty, image
+            name,
+            catId,
+            price,
+            desc,
+            qty,
+            image,
         });
         return product;
     } catch (error) {
